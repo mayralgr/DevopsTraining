@@ -1,0 +1,21 @@
+Description: "AWS stack containing vpc, alb, asg and EC2 instances"
+Resources:
+  VPC:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: vpc.yml
+  LoadBalancer:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - VPC
+    Properties: 
+      TemplateURL: loadbalancer.yml
+  ScalingGroup:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - LoadBalancer
+    Properties: 
+      TemplateURL: scalinggroup.yml
+      Parameters:
+        Subnets: !GetAtt VPC.Outputs.PublicSubnets
+  

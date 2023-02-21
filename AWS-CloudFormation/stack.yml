@@ -3,19 +3,19 @@ Resources:
   VPC:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: vpc.yml
-  LoadBalancer:
-    Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - VPC
-    Properties: 
-      TemplateURL: loadbalancer.yml
-  ScalingGroup:
-    Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - LoadBalancer
-    Properties: 
-      TemplateURL: scalinggroup.yml
-      Parameters:
-        Subnets: !GetAtt VPC.Outputs.PublicSubnets
+      TemplateURL: https://s3.us-east-1.amazonaws.com/mlgr-templates/60d2116d18e1208cc514479453be9894.template
+  # LoadBalancer:
+  #   Type: AWS::CloudFormation::Stack
+  #   DependsOn:
+  #     - VPC
+  #   Properties: 
+  #     TemplateURL: loadbalancer.yml
+  # ScalingGroup:
+  #   Type: AWS::CloudFormation::Stack
+  #   DependsOn:
+  #     - LoadBalancer
+  #   Properties: 
+  #     TemplateURL: scalinggroup.yml
+  #     Parameters:
+  #       Subnets: !GetAtt VPC.Outputs.PublicSubnets
   

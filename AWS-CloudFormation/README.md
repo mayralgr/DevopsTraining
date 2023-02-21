@@ -1,4 +1,4 @@
-# Cloudformation yaml's for create:
+# Cloudformation yml's for create:
 
 - A VPC to contain the resources
 - An Application load balancer
@@ -6,14 +6,20 @@
 - EC2's for the autoscaling group
 
 ### Formating
-Cloud formation accepts json and yaml, this repo contains yaml files
+Cloud formation accepts json and yml, this repo contains yml files
 
 ### Resources
 [AWS Template basics](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html)
+
 [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
+
 [Cloudformation stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)
 
+[AWS Cloudformation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/sample-templates-services-us-east-1.html#w2ab1c35c52c13c41)
 
+[VPC Single instance in subnet](https://s3.amazonaws.com/cloudformation-templates-us-east-1/VPC_Single_Instance_In_Subnet.template)
+
+[VPC autoscaling with load balancer](https://s3.amazonaws.com/cloudformation-templates-us-east-1/VPC_AutoScaling_and_ElasticLoadBalancer.template)
 ## Commands used in this folder
 
 To validate the template

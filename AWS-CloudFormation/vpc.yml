@@ -1,13 +1,17 @@
 Description: "AWS VPC where the resources interact, creates a VPC, the internet gateway, subnets, security group and ACL rules for the ports"
 Resources:
-  PrincialVPC:
+
+  PrincipalVPC:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.0.0.0/16 #TODO: Review this
+      Tags:
+        - Key: Training
+          Value: VPC
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
-    DependsOn: PrincialVPC
+    DependsOn: PrincipalVPC
 
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -20,12 +24,18 @@ Resources:
     Properties:
       VpcId: !Ref PrincipalVPC
       CidrBlock: 10.0.0.0/24 #TODO: Review this
-      AvailabilityZone: us-east-1
+      # AvailabilityZone: us-east-1a
+      Tags:
+        - Key: Training
+          Value: Subnet1
 
   RouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref PrincipalVPC
+      Tags:
+        - Key: Training
+          Value: RouteTable
 
   Route:
     Type: AWS::EC2::Route
@@ -45,10 +55,12 @@ Resources:
     Type: AWS::EC2::NetworkAcl
     Properties:
       VpcId: !Ref PrincipalVPC
+      Tags:
+        - Key: Training
+          Value: NetworkAcl
 
   InboundHTTPNetworkAclEntry:
     Type: AWS::EC2::NetworkAclEntry
-    DependsOn: NetworkAcl
     Properties:
       NetworkAclId: !Ref NetworkAcl
       RuleNumber: 100
@@ -62,7 +74,6 @@ Resources:
 
   InboundSSHNetworkAclEntry:
     Type: AWS::EC2::NetworkAclEntry
-    DependsOn: NetworkAcl
     Properties:
       NetworkAclId: !Ref NetworkAcl
       RuleNumber: 101
@@ -76,7 +87,6 @@ Resources:
 
   InboundResponsePortsNetworkAclEntry:
     Type: AWS::EC2::NetworkAclEntry
-    DependsOn: NetworkAcl
     Properties:
       NetworkAclId: !Ref NetworkAcl
       RuleNumber: 102
@@ -90,7 +100,6 @@ Resources:
 
   OutBoundHTTPNetworkAclEntry:
     Type: AWS::EC2::NetworkAclEntry
-    DependsOn: NetworkAcl
     Properties:
       NetworkAclId: !Ref NetworkAcl
       RuleNumber: 100
@@ -104,7 +113,6 @@ Resources:
 
   OutBoundHTTPSNetworkAclEntry:
     Type: AWS::EC2::NetworkAclEntry
-    DependsOn: NetworkAcl
     Properties:
       NetworkAclId: !Ref NetworkAcl
       RuleNumber: 101
@@ -118,7 +126,6 @@ Resources:
 
   OutboundResponsePortsNetworkAclEntry:
     Type: AWS::EC2::NetworkAclEntry
-    DependsOn: NetworkAcl
     Properties:
       NetworkAclId: !Ref NetworkAcl
       RuleNumber: 102
@@ -156,12 +163,14 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-
+      Tags:
+        - Key: Training
+          Value: SecurityGroup
 
 Outputs:
   PrincipalVPCOut:
     Description: "VPC Id"
-    Value: !Ref PrincipalVpc
+    Value: !Ref PrincipalVPC
     Export:
       Name: "VPC-PrincipalVPC-Id"
   Subnet:

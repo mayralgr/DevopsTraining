@@ -24,18 +24,52 @@ Cloud formation accepts json and yml, this repo contains yml files
 
 To validate the template
 ```
-aws cloudformation validate-template --template-body file 
+aws cloudformation validate-template --template-body file://stack.yml 
+
+# needs the next policy added to the user
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1449904348000",
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:CreateStack"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
 ```
 To check the cost of the template
 ```
-aws cloudformation estimate-template-cost --template-body file --parameters ParameterKey=KeyName,ParameterValue=newcluster ParameterKey=InstanceType, ParameterValue= t2.micro
+aws cloudformation estimate-template-cost --template-body file://stack.yml --parameters ParameterKey=KeyName,ParameterValue=newcluster ParameterKey=InstanceType, ParameterValue= t2.micro
 ```
 To create the stack
 ```
-aws cloudformation create-stack --template-body file
+aws cloudformation create-stack --template-body file://stack.yml --stack-name testvpc
 ```
 
 To delete the stack
 ```
 aws cloudformation delete-stack --stack-name stack-name
 ```
+
+To package the template
+```
+aws cloudformation package --template-file stack.yml --s3-bucket mlgr-templates --output-template-file stack-template.yml
+```
+
+To deploy
+```
+aws cloudformation deploy --template-file /Users/myara.garcia/Documents/repos/DevopsTraining/AWS-CloudFormation/stack-template.yml --stack-name <YOUR STACK NAME>
+```
+
+To run the linter
+```
+cfn-lint vpc.yml    
+```
+[See more](https://github.com/aws-cloudformation/cfn-lint)
